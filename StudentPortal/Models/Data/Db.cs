@@ -10,6 +10,8 @@ namespace StudentPortal.Models.Data
     {
         public DbSet<PageDTO> Pages { get; set; }
         public DbSet<SidebarDTO> Sidebar { get; set; }
+        public DbSet<CohortDTO> Cohort { get; set; }
+
 
 
     }
