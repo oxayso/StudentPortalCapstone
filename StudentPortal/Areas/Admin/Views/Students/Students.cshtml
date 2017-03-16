@@ -1,0 +1,111 @@
+﻿@model IEnumerable<StudentPortal.Models.ViewModels.Students.StudentVM>
+
+
+@{
+    ViewBag.Title = "Students";
+}
+
+@using PagedList.Mvc;
+@using PagedList;
+
+<h2>Students</h2>
+
+<select id="SelectCohort" name="SelectCohort">
+    <option value="0">All</option>
+    @foreach (var item in ViewBag.Cohorts)
+    {
+        if (ViewBag.SelectedCat == item.Value)
+        {
+            <option selected="selected" value="@item.Value">@item.Text</option>
+        }
+        else
+        {
+            <option value="@item.Value">@item.Text</option>
+        }
+    }
+</select>
+<br /><br />
+
+<p>
+    @Html.ActionLink("Add New Student", "AddStudent")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            First Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Cohort
+        </th>
+        <th>
+            Image
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var student in ViewBag.OnePageOfProducts)
+    {
+        <tr>
+            <td>
+                @student.FirstName
+            </td>
+            <td>
+                @student.LastName
+            </td>
+            <td>
+                $@student.Cohort
+            </td>
+            <td>
+                <a href="/admin/students/EditStudent/@student.Id">
+                    <img src="/Images/Uploads/Products/@student.Id/Thumbs/@student.ImageName" />
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditStudent", new { id = student.Id }) |
+                @Html.ActionLink("Delete", "DeleteStudent", new { id = student.Id }, new { @class = "delete" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Students", new { page, catId = ViewBag.SelectedCat }))
+
+@section Scripts {
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script>
+
+$(function () {
+
+
+    //user select from certain category
+
+    $("#SelectCategory").on("change", function () {
+        var url = $(this).val();
+
+        if (url) {
+            window.location = "/admin/students/Students?catId=" + url;
+        }
+
+        return false;
+    });
+
+    //////////////////////////////////////////////////////////////
+
+
+
+    $("a.delete").click(function () {
+        if (!confirm("Confirm student deletion")) return false;
+    });
+
+    //////////////////////////////////////////////////////////////
+
+});
+
+    </script>
+
+}

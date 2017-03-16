@@ -30,9 +30,7 @@ namespace StudentPortal.Models.ViewModels.Students
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required]
         public string Root { get; set; }
-        [Required]
         public string CohortName { get; set; }
         public int CohortId { get; set; }
         public string ImageName { get; set; }

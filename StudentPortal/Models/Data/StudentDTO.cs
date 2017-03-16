@@ -20,6 +20,6 @@ namespace StudentPortal.Models.Data
         public string ImageName { get; set; }
 
         [ForeignKey("CohortId")]
-        public virtual CohortDTO Category { get; set; }
+        public virtual CohortDTO Cohort { get; set; }
     }
 }
