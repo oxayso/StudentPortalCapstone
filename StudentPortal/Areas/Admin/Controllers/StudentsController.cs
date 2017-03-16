@@ -50,6 +50,62 @@ namespace StudentPortal.Areas.Admin.Controllers
 
             return id;
         }
+
+        [HttpPost]
+        public void ReorderCohorts(int[] id)
+        {
+            using (Db db = new Db())
+            {
+                int count = 1;
+
+                CohortDTO dto;
+
+                foreach (var catId in id)
+                {
+                    dto = db.Cohort.Find(catId);
+                    dto.Sorting = count;
+
+                    db.SaveChanges();
+
+                    count++;
+                }
+            }
+
+        }
+
+        public ActionResult DeleteCohort(int id)
+        {
+            using (Db db = new Db())
+            {
+                CohortDTO dto = db.Cohort.Find(id);
+
+                db.Cohort.Remove(dto);
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Cohorts");
+        }
+
+        [HttpPost]
+        public string RenameCohort(string newCatName, int id)
+        {
+            using (Db db = new Db())
+            {
+                if (db.Cohort.Any(x => x.Name == newCatName))
+                    return "titletaken";
+
+                CohortDTO dto = db.Cohort.Find(id);
+
+                dto.Name = newCatName;
+                dto.Root = newCatName.Replace(" ", "-").ToLower();
+
+                db.SaveChanges();
+            }
+
+            return "test";
+        }
+
     }
 
 }
