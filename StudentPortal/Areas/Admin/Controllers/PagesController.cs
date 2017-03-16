@@ -145,5 +145,40 @@ namespace StudentPortal.Areas.Admin.Controllers
 
             return RedirectToAction("EditPage");
         }
+
+        public ActionResult PageDetails(int id)
+        {
+            PageVM model;
+
+            using (Db db = new Db())
+            {
+                PageDTO dto = db.Pages.Find(id);
+
+                if (dto == null)
+                {
+                    return Content("The page does not exist.");
+                }
+
+                model = new PageVM(dto);
+            }
+
+            return View(model);
+        }
+
+        public ActionResult DeletePage(int id)
+        {
+            using (Db db = new Db())
+            {
+                PageDTO dto = db.Pages.Find(id);
+
+                db.Pages.Remove(dto);
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
     }
+
+
 }
