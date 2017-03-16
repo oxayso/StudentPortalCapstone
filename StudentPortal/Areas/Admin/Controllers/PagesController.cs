@@ -200,6 +200,40 @@ namespace StudentPortal.Areas.Admin.Controllers
             }
 
         }
+
+        [HttpGet]
+        public ActionResult EditSidebar()
+        {
+            SidebarVM model;
+
+            using (Db db = new Db())
+            {
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                model = new SidebarVM(dto);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditSidebar(SidebarVM model)
+        {
+            using (Db db = new Db())
+            {
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                dto.Body = model.Body;
+
+                db.SaveChanges();
+            }
+
+            TempData["SM"] = "Successfully edited the sidebar!";
+
+            return RedirectToAction("EditSidebar");
+        }
+
+
     }
 
 
