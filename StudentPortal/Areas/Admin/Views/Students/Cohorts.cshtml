@@ -69,13 +69,13 @@ else
                 var catName = newCatTextInput.val();
 
                 if (catName.length < 2) {
-                    alert("ERROR: Cohort name must be at least 2 characters long.");
+                    alert("ERROR: Cohorts name must be at least 2 characters long.");
                     return false;
                 }
 
                 ajaxText.show();
 
-                var url = "/admin/students/AddNewCohort";
+                var url = "/admin/students/AddNewCohorts";
 
                 $.post(url,
                     { catName: catName },
@@ -113,7 +113,7 @@ else
                                 var toAppend = $("table#pages tbody tr:last").clone();
                                 toAppend.attr("id", "id_" + data);
                                 toAppend.find("#item_Name").val(catName);
-                                toAppend.find("a.delete").attr("href", "/admin/students/DeleteCohort/" + data);
+                                toAppend.find("a.delete").attr("href", "/admin/students/DeleteCohorts/" + data);
                                 table.append(toAppend);
                                 table.sortable("refresh");
                             }
@@ -129,7 +129,7 @@ else
                 placeholder: "ui-state-highlight",
                 update: function () {
                     var ids = $("table#pages tbody").sortable("serialize");
-                    var url = "/Admin/Shop/ReorderCohorts";
+                    var url = "/Admin/Shop/ReorderCohortss";
 
                     $.post(url, ids, function (data) {
                     });
@@ -170,10 +170,10 @@ else
                 var ajaxdiv = $this.parent().find(".ajaxdivtd");
                 var newCatName = $this.val();
                 var id = $this.parent().parent().attr("id").substring(3);
-                var url = "/admin/shop/RenameCohort";
+                var url = "/admin/shop/RenameCohorts";
 
                 if (newCatName.length < 2) {
-                    alert("Cohort name must be at least 2 characters long.");
+                    alert("Cohorts name must be at least 2 characters long.");
                     $this.attr("readonly", true);
                     return false;
                 }

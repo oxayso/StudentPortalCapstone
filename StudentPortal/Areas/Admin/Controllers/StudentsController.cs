@@ -19,7 +19,7 @@ namespace StudentPortal.Areas.Admin.Controllers
 
             using (Db db = new Db())
             {
-                cohortVMList = db.Cohort
+                cohortVMList = db.Cohorts
                     .ToArray()
                     .OrderBy(x => x.Sorting)
                     .Select(x => new CohortVM(x))
@@ -36,7 +36,7 @@ namespace StudentPortal.Areas.Admin.Controllers
 
             using (Db db = new Db())
             {
-                if (db.Cohort.Any(x => x.Name == catName))
+                if (db.Cohorts.Any(x => x.Name == catName))
                     return "titletaken";
 
                 CohortDTO dto = new CohortDTO();
@@ -45,7 +45,7 @@ namespace StudentPortal.Areas.Admin.Controllers
                 dto.Root = catName.Replace(" ", "-").ToLower();
                 dto.Sorting = 100;
 
-                db.Cohort.Add(dto);
+                db.Cohorts.Add(dto);
                 db.SaveChanges();
 
                 id = dto.Id.ToString();
@@ -65,7 +65,7 @@ namespace StudentPortal.Areas.Admin.Controllers
 
                 foreach (var catId in id)
                 {
-                    dto = db.Cohort.Find(catId);
+                    dto = db.Cohorts.Find(catId);
                     dto.Sorting = count;
 
                     db.SaveChanges();
@@ -76,13 +76,14 @@ namespace StudentPortal.Areas.Admin.Controllers
 
         }
 
+
         public ActionResult DeleteCohort(int id)
         {
             using (Db db = new Db())
             {
-                CohortDTO dto = db.Cohort.Find(id);
+                CohortDTO dto = db.Cohorts.Find(id);
 
-                db.Cohort.Remove(dto);
+                db.Cohorts.Remove(dto);
 
                 db.SaveChanges();
             }
@@ -95,10 +96,10 @@ namespace StudentPortal.Areas.Admin.Controllers
         {
             using (Db db = new Db())
             {
-                if (db.Cohort.Any(x => x.Name == newCatName))
+                if (db.Cohorts.Any(x => x.Name == newCatName))
                     return "titletaken";
 
-                CohortDTO dto = db.Cohort.Find(id);
+                CohortDTO dto = db.Cohorts.Find(id);
 
                 dto.Name = newCatName;
                 dto.Root = newCatName.Replace(" ", "-").ToLower();
@@ -116,7 +117,7 @@ namespace StudentPortal.Areas.Admin.Controllers
 
             using (Db db = new Db())
             {
-                model.Cohorts = new SelectList(db.Cohort.ToList(), "Id", "Name");
+                model.Cohorts = new SelectList(db.Cohorts.ToList(), "Id", "Name");
             }
 
             return View(model);
@@ -129,7 +130,7 @@ namespace StudentPortal.Areas.Admin.Controllers
             {
                 using (Db db = new Db())
                 {
-                    model.Cohorts = new SelectList(db.Cohort.ToList(), "Id", "Name");
+                    model.Cohorts = new SelectList(db.Cohorts.ToList(), "Id", "Name");
                     return View(model);
                 }
             }
@@ -138,7 +139,7 @@ namespace StudentPortal.Areas.Admin.Controllers
             {
                 if (db.Student.Any(x => x.FirstName == model.FirstName))
                 {
-                    model.Cohorts = new SelectList(db.Cohort.ToList(), "Id", "Name");
+                    model.Cohorts = new SelectList(db.Cohorts.ToList(), "Id", "Name");
                     ModelState.AddModelError("", "Sorry! That student name is taken!");
                     return View(model);
                 }
@@ -155,7 +156,7 @@ namespace StudentPortal.Areas.Admin.Controllers
                 student.Root = model.FirstName.Replace(" ", "-").ToLower();
                 student.CohortId = model.CohortId;
 
-                CohortDTO catDTO = db.Cohort.FirstOrDefault(x => x.Id == model.CohortId);
+                CohortDTO catDTO = db.Cohorts.FirstOrDefault(x => x.Id == model.CohortId);
                 student.CohortName = catDTO.Name;
 
                 db.Student.Add(student);
@@ -204,7 +205,7 @@ namespace StudentPortal.Areas.Admin.Controllers
                 {
                     using (Db db = new Db())
                     {
-                        model.Cohorts = new SelectList(db.Cohort.ToList(), "Id", "Name");
+                        model.Cohorts = new SelectList(db.Cohorts.ToList(), "Id", "Name");
                         ModelState.AddModelError("", "ERROR: The image was not uploaded - wrong image extension.");
                         return View(model);
                     }
@@ -248,7 +249,7 @@ namespace StudentPortal.Areas.Admin.Controllers
                                   .Select(x => new StudentVM(x))
                                   .ToList();
 
-                ViewBag.Categories = new SelectList(db.Cohort.ToList(), "Id", "Name");
+                ViewBag.Categories = new SelectList(db.Cohorts.ToList(), "Id", "Name");
 
                 ViewBag.SelectedCat = catId.ToString();
             }

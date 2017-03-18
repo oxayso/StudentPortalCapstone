@@ -46,9 +46,9 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2" for="HasSidebar">Cohort</label>
+            <label class="control-label col-md-2" for="HasSidebar">Cohorts</label>
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.CohortId, Model.Cohorts, "Select Cohort", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CohortId, Model.Cohorts, "Select Cohorts", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CohortId, "", new { @class = "text-danger" })
             </div>
         </div>
